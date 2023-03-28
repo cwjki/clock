@@ -1,13 +1,13 @@
 import { useState, MouseEvent } from "react";
 
 export default function Clock() {
-  const [timerLeft, setTimerLeft] = useState(25);
+  const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setTimerLeft(25);
+    setSessionTime(25);
     setBreakTime(5);
     setIsStopped(true);
   };
@@ -15,6 +15,35 @@ export default function Clock() {
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setIsStopped(!isStopped);
+  };
+
+  const handleTimerAndBreakAmount = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    switch (event.currentTarget.id) {
+      case "break-decrement":
+        if (checkRange(breakTime)) {
+          setBreakTime(breakTime - 1);
+        }
+        break;
+      case "break-increment":
+        if (checkRange(breakTime)) {
+          setBreakTime(breakTime + 1);
+        }
+        break;
+      case "session-decrement":
+        setSessionTime(sessionTime - 1);
+        break;
+      case "session-increment":
+        setSessionTime(sessionTime + 1);
+        break;
+      default:
+        alert("Something went wrong!");
+        break;
+    }
+  };
+
+  const checkRange = (value: number) => {
+    return value >= 2 && value <= 59;
   };
 
   return (
@@ -37,26 +66,42 @@ export default function Clock() {
               <div className="row align-items-center text-center">
                 <div className="col">
                   <div className="row align-items-center justify-content-center">
-                    <button id="break-decrement" className="col btn border-0 ">
+                    <button
+                      id="break-decrement"
+                      className="col btn border-0"
+                      onClick={handleTimerAndBreakAmount}
+                    >
                       <i className="bi bi-chevron-down fs-3"></i>
                     </button>
                     <div id="break-length" className="col fs-3">
                       {breakTime}
                     </div>
-                    <button id="break-increment" className="col btn border-0">
+                    <button
+                      id="break-increment"
+                      className="col btn border-0"
+                      onClick={handleTimerAndBreakAmount}
+                    >
                       <i className="bi bi-chevron-up fs-3"></i>
                     </button>
                   </div>
                 </div>
                 <div className="col">
                   <div className="row align-items-center justify-content-center">
-                    <button id="session-decrement" className="col btn border-0">
+                    <button
+                      id="session-decrement"
+                      className="col btn border-0"
+                      onClick={handleTimerAndBreakAmount}
+                    >
                       <i className="bi bi-chevron-down fs-3"></i>
                     </button>
                     <div id="session-length" className="col fs-3">
-                      {timerLeft}
+                      {sessionTime}
                     </div>
-                    <button id="session-increment" className="col btn border-0">
+                    <button
+                      id="session-increment"
+                      className="col btn border-0"
+                      onClick={handleTimerAndBreakAmount}
+                    >
                       <i className="bi bi-chevron-up fs-3"></i>
                     </button>
                   </div>
