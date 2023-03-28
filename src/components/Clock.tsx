@@ -8,39 +8,33 @@ export default function Clock() {
               <div className="card-title text-center fs-2 fw-semibold">
                 25 + 5 Clock
               </div>
+
               <div className="row align-items-center text-center">
                 <div className="col fs-4">Break Length</div>
                 <div className="col fs-4">Session Length</div>
               </div>
+
               <div className="row align-items-center text-center">
                 <div className="col">
                   <div className="row align-items-center justify-content-center">
-                    <div className="col">
-                      <button className="btn border-0">
-                        <i className="bi bi-chevron-down fs-3"></i>
-                      </button>
-                    </div>
+                    <button className="col btn border-0 ">
+                      <i className="bi bi-chevron-down fs-3"></i>
+                    </button>
                     <div className="col">6</div>
-                    <div className="col">
-                    <button className="btn border-0">
-                        <i className="bi bi-chevron-up fs-3"></i>
-                      </button>
-                    </div>
+                    <button className="col btn border-0">
+                      <i className="bi bi-chevron-up fs-3"></i>
+                    </button>
                   </div>
                 </div>
                 <div className="col">
                   <div className="row align-items-center justify-content-center">
-                    <div className="col">
-                    <button className="btn border-0">
+                      <button className=" col btn border-0">
                         <i className="bi bi-chevron-down fs-3"></i>
                       </button>
-                    </div>
                     <div className="col">6</div>
-                    <div className="col">
-                    <button className="btn border-0">
+                      <button className="col btn border-0">
                         <i className="bi bi-chevron-up fs-3"></i>
                       </button>
-                    </div>
                   </div>
                 </div>
               </div>
