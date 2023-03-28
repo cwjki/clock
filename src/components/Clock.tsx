@@ -1,22 +1,22 @@
 import { useState, MouseEvent } from "react";
 
 export default function Clock() {
-  
   const [timerLeft, setTimerLeft] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
-  
+
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setTimerLeft(25);
     setBreakTime(5);
     setIsStopped(true);
-  }
+  };
 
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-  }
-  
+    setIsStopped(!isStopped);
+  };
+
   return (
     <div className="container-fluid text-dark">
       <div className="row align-items-center vh-100">
@@ -26,8 +26,12 @@ export default function Clock() {
           <div className="card bg-secondary shadow-lg rounded-5">
             <div className="card-body">
               <div className="row align-items-center text-center pt-4 pb-1">
-                <div id="break-label" className="col fs-4">Break Length</div>
-                <div id="session-label" className="col fs-4">Session Length</div>
+                <div id="break-label" className="col fs-4">
+                  Break Length
+                </div>
+                <div id="session-label" className="col fs-4">
+                  Session Length
+                </div>
               </div>
 
               <div className="row align-items-center text-center">
@@ -36,7 +40,9 @@ export default function Clock() {
                     <button id="break-decrement" className="col btn border-0 ">
                       <i className="bi bi-chevron-down fs-3"></i>
                     </button>
-                    <div id="break-length" className="col fs-3">{breakTime}</div>
+                    <div id="break-length" className="col fs-3">
+                      {breakTime}
+                    </div>
                     <button id="break-increment" className="col btn border-0">
                       <i className="bi bi-chevron-up fs-3"></i>
                     </button>
@@ -47,7 +53,9 @@ export default function Clock() {
                     <button id="session-decrement" className="col btn border-0">
                       <i className="bi bi-chevron-down fs-3"></i>
                     </button>
-                    <div id="session-length" className="col fs-3">{timerLeft}</div>
+                    <div id="session-length" className="col fs-3">
+                      {timerLeft}
+                    </div>
                     <button id="session-increment" className="col btn border-0">
                       <i className="bi bi-chevron-up fs-3"></i>
                     </button>
@@ -58,16 +66,34 @@ export default function Clock() {
                 <div className="col-8 mx-auto">
                   <div className="card bg-primary rounded-5 shadow text-dark">
                     <div className="card-body text-center">
-                      <div id="timer-label" className="card-text fs-3 fw-bold">Session</div>
-                      <div id="time-left" className="card-title fs-1 fw-bolder">25:00</div>
+                      <div id="timer-label" className="card-text fs-3 fw-bold">
+                        Session
+                      </div>
+                      <div id="time-left" className="card-title fs-1 fw-bolder">
+                        25:00
+                      </div>
                       <div className="row align-items-center">
-                        <button id="start_stop" className="col btn border-0" type="button">
-                          <i className="bi bi-play fs-1 "></i>
+                        <button
+                          id="start_stop"
+                          className="col btn border-0"
+                          type="button"
+                          onClick={handlePlayPause}
+                        >
+                          <i
+                            className={`bi ${
+                              isStopped ? "bi-play" : "bi-pause "
+                            } bi-arrow-repeat fs-1`}
+                          ></i>
                         </button>
                         {/* <button className="col btn border-0" type="button">
                           <i className="bi bi-pause fs-1"></i>
                         </button> */}
-                        <button id="reset" className="col btn border-0" type="button" onClick={handleReset}>
+                        <button
+                          id="reset"
+                          className="col btn border-0"
+                          type="button"
+                          onClick={handleReset}
+                        >
                           <i className="bi bi-arrow-repeat fs-1"></i>
                         </button>
                       </div>
