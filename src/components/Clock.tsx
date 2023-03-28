@@ -2,24 +2,25 @@ export default function Clock() {
   return (
     <div className="container-fluid">
       <div className="row align-items-center vh-100">
-        <div className="col-8 mx-auto">
+        <div className="col-md-8 col-sm-10 col-12 mx-auto">
           <div className="card">
             <div className="card-header text-center fs-2">25 + 5 Clock</div>
             <div className="card-body">
+              
               <div className="row align-items-center text-center">
                 <div className="col fs-3">Break Length</div>
                 <div className="col fs-3">Session Length</div>
               </div>
               <div className="row align-items-center text-center">
                 <div className="col border">
-                  <div className="row align-items-center">
-                    <div className="col">
+                  <div className="row align-items-center justify-content-center">
+                    <div className="col-3">
                       <button className="btn">
                         <i className="bi bi-chevron-down fs-3"></i>
                       </button>
                     </div>
-                    <div className="col">6</div>
-                    <div className="col">
+                    <div className="col-3">6</div>
+                    <div className="col-3">
                     <button className="btn">
                         <i className="bi bi-chevron-up fs-3"></i>
                       </button>
@@ -27,14 +28,14 @@ export default function Clock() {
                   </div>
                 </div>
                 <div className="col border">
-                  <div className="row align-items-center">
-                    <div className="col">
+                  <div className="row align-items-center justify-content-center">
+                    <div className="col-3">
                     <button className="btn">
                         <i className="bi bi-chevron-down fs-3"></i>
                       </button>
                     </div>
-                    <div className="col">6</div>
-                    <div className="col">
+                    <div className="col-3">6</div>
+                    <div className="col-3">
                     <button className="btn">
                         <i className="bi bi-chevron-up fs-3"></i>
                       </button>
