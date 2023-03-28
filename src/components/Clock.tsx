@@ -1,18 +1,19 @@
 export default function Clock() {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid text-dark">
       <div className="row align-items-center vh-100">
         <div className="col-md-8 col-sm-10 col-12 mx-auto">
-          <div className="card">
-            <div className="card-header text-center fs-2">25 + 5 Clock</div>
+          <div className="card bg-secondary shadow-lg rounded-5">
             <div className="card-body">
-              
-              <div className="row align-items-center text-center">
-                <div className="col fs-3">Break Length</div>
-                <div className="col fs-3">Session Length</div>
+              <div className="card-title text-center fs-2 fw-semibold">
+                25 + 5 Clock
               </div>
               <div className="row align-items-center text-center">
-                <div className="col border">
+                <div className="col fs-4">Break Length</div>
+                <div className="col fs-4">Session Length</div>
+              </div>
+              <div className="row align-items-center text-center">
+                <div className="col">
                   <div className="row align-items-center justify-content-center">
                     <div className="col-3">
                       <button className="btn">
@@ -27,7 +28,7 @@ export default function Clock() {
                     </div>
                   </div>
                 </div>
-                <div className="col border">
+                <div className="col">
                   <div className="row align-items-center justify-content-center">
                     <div className="col-3">
                     <button className="btn">
@@ -44,11 +45,11 @@ export default function Clock() {
                 </div>
               </div>
               <div className="row">
-                <div className="col-6 mx-auto">
-                  <div className="card">
+                <div className="col-5 mx-auto">
+                  <div className="card bg-primary rounded-5 shadow">
                     <div className="card-body text-center">
-                      <div className="card-text">Session</div>
-                      <div className="card-title">25:00</div>
+                      <div className="card-text fs-3 fw-bold">Session</div>
+                      <div className="card-title fs-1 fw-bolder">25:00</div>
                       <div className="card-text">
                         <button className="btn" type="button">
                           <i className="bi bi-play fs-1"></i>
