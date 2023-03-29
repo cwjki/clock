@@ -1,43 +1,5 @@
 import { useState, MouseEvent } from "react";
-
-class CountDown {
-  onRender: Function;
-  onComplete: Function;
-  timeRemaining: number;
-
-  constructor(expiredDate: Date, onRender: Function, onComplete: Function) {
-    this.timeRemaining = 100;
-    this.onRender = onRender;
-    this.onComplete = onComplete;
-    this.setExpiredDate(expiredDate);
-  }
-
-  setExpiredDate(expiredDate: Date) {
-    const currentTime: number = new Date().getTime();
-    this.timeRemaining = expiredDate.getTime() - currentTime;
-    this.timeRemaining <= 0 ? this.complete() : this.start();
-  }
-
-  complete() {
-    this.onComplete();
-  }
-
-  getTime() {
-    return {
-      days: Math.floor(this.timeRemaining / 1000 / 60 / 60 / 24),
-      hours: Math.floor(this.timeRemaining / 1000 / 60 / 60) % 24,
-      minutes: Math.floor(this.timeRemaining / 1000 / 60) % 60,
-      seconds: Math.floor(this.timeRemaining / 1000) % 60
-    };
-  }
-
-  update
-
-  start() {
-
-  }
-  
-}
+import { CountDown } from "../countDown/countDown";
 
 export default function Clock() {
   const [sessionTime, setSessionTime] = useState(25);
