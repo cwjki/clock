@@ -21,29 +21,21 @@ export default function Clock() {
     event.preventDefault();
     switch (event.currentTarget.id) {
       case "break-decrement":
-        if (checkRange(breakTime)) {
-          setBreakTime(breakTime - 1);
-        }
+        if (breakTime > 1) setBreakTime(breakTime - 1);
         break;
       case "break-increment":
-        if (checkRange(breakTime)) {
-          setBreakTime(breakTime + 1);
-        }
+        if (breakTime < 60) setBreakTime(breakTime + 1);
         break;
       case "session-decrement":
-        setSessionTime(sessionTime - 1);
+        if (sessionTime > 1) setSessionTime(sessionTime - 1);
         break;
       case "session-increment":
-        setSessionTime(sessionTime + 1);
+        if (sessionTime < 60) setSessionTime(sessionTime + 1);
         break;
       default:
         alert("Something went wrong!");
         break;
     }
-  };
-
-  const checkRange = (value: number) => {
-    return value >= 2 && value <= 59;
   };
 
   return (
