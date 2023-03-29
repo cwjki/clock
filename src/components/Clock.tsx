@@ -1,5 +1,4 @@
 import { useState, MouseEvent } from "react";
-import { CountDown } from "../countDown/countDown";
 
 export default function Clock() {
   const [sessionTime, setSessionTime] = useState(25);
