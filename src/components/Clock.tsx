@@ -4,6 +4,7 @@ export default function Clock() {
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
+  const [firstPlay, setFirstPlay] = useState(true);
 
   const [countDown, setCountDown] = useState(25 * 60 * 1000);
   const [targetDate, setTargetDate] = useState(25 * 60 * 1000);
@@ -26,10 +27,10 @@ export default function Clock() {
 
   // get a target date adding a amount of mins to the current time
   const getTargetDate = (amount: number) => {
-    const amountInMs = amount * 60 * 1001;
+    const amountInMs = amount * 60 * 1000.1;
     const nowInMs = new Date().getTime();
     return amountInMs + nowInMs;
-  }
+  };
 
   // calculate time left in minutes and seconds
   const getMinutesAndSeconds = (countDown: number) => {
@@ -38,22 +39,23 @@ export default function Clock() {
     return [mins, secs];
   };
 
-
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     isStopped ? handlePlay() : handlePause();
     setIsStopped(!isStopped);
   };
 
-  
-
   const handlePlay = () => {
-    setTargetDate(getTargetDate(sessionTime));
+    if (firstPlay) {
+      setTargetDate(getTargetDate(sessionTime));
+      setFirstPlay(false);
+    } else {
+      console.log(countDown);
+      setTargetDate(countDown + new Date().getTime());
+    }
   };
 
-  const handlePause = () => {
-    
-  };
+  const handlePause = () => {};
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -61,7 +63,6 @@ export default function Clock() {
     setBreakTime(5);
     setIsStopped(true);
   };
-
 
   const handleSessionAndBreakTime = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
