@@ -12,27 +12,26 @@ export default function Clock() {
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
 
-  // calculate time left
-  const getReturnValues = (countDown: number) => {
-    const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
+  // calculate time left in minutes and seconds
+  const getMinutesAndSeconds = (countDown: number) => {
     const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
-
-    return [days, hours, minutes, seconds];
+    return [minutes, seconds];
   };
 
   useEffect(() => {
     if (!isStopped) {
       const interval = setInterval(() => {
-        setCountDown(targetDate - new Date().getTime());
+        const timer = targetDate - new Date().getTime();
+        const [mins, secs] = getMinutesAndSeconds(timer);
+        setCountDown(timer);
+        setMinutes(mins);
+        setSeconds(seconds);
         console.log("a");
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [targetDate, isStopped]);
+  }, [targetDate, isStopped, minutes, seconds]);
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -43,10 +42,19 @@ export default function Clock() {
 
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    isStopped ? handlePlay(): handlePause();
+
     setIsStopped(!isStopped);
   };
 
+  const handlePause = () => {
+    alert("pause");
+  }
+
   const handlePlay = () => {
+    alert("play");
+
     const sessionInMs = sessionTime * 60 * 1000;
     const nowInMs = new Date().getTime();
     const timeSessionTarget = sessionInMs + nowInMs;
@@ -145,7 +153,9 @@ export default function Clock() {
                       <div
                         id="time-left"
                         className="card-title fs-1 fw-bolder"
-                      ></div>
+                      >
+                        {minutes} : {seconds}
+                      </div>
                       <div className="row align-items-center">
                         <button
                           id="start_stop"
