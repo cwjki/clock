@@ -4,7 +4,7 @@ const DateTimeDisplay = ({
   isDanger,
 }: {
   value: number;
-  type: number;
+  type: string;
   isDanger: boolean;
 }) => {
   return (
