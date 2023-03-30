@@ -62,6 +62,11 @@ export default function Clock() {
     setSessionTime(25);
     setBreakTime(5);
     setIsStopped(true);
+    setFirstPlay(true);
+    setCountDown(25 * 60 * 1000);
+    setTargetDate(25 * 60 * 1000);
+    setMinutes(25);
+    setSeconds(0);
   };
 
   const handleSessionAndBreakTime = (event: MouseEvent<HTMLButtonElement>) => {
