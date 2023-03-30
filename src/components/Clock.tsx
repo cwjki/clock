@@ -41,13 +41,13 @@ export default function Clock() {
 
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    isStopped ? handlePlay(): handlePause();
+    isStopped ? handlePlay() : handlePause();
     setIsStopped(!isStopped);
   };
 
   const handlePause = () => {
     alert("pause");
-  }
+  };
 
   const handlePlay = () => {
     const sessionInMs = sessionTime * 60 * 1000;
@@ -145,11 +145,9 @@ export default function Clock() {
                       <div id="timer-label" className="card-text fs-3 fw-bold">
                         Session
                       </div>
-                      <div
-                        id="time-left"
-                        className="card-title fs-1 fw-bolder"
-                      >
-                        {minutes} : {seconds}
+                      <div id="time-left" className="card-title fs-1 fw-bolder">
+                        {minutes >= 10 ? minutes : "0" + minutes} :{" "}
+                        {seconds >= 10 ? seconds : "0" + seconds}
                       </div>
                       <div className="row align-items-center">
                         <button
