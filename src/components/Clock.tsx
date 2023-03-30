@@ -11,26 +11,49 @@ export default function Clock() {
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
 
-  // calculate time left in minutes and seconds
-  const getMinutesAndSeconds = (countDown: number) => {
-    const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
-    return [minutes, seconds];
-  };
-
   useEffect(() => {
     if (!isStopped) {
       const interval = setInterval(() => {
-        const timer = targetDate - new Date().getTime();
-        const [mins, secs] = getMinutesAndSeconds(timer);
-        setCountDown(timer);
+        const countDownTime = targetDate - new Date().getTime();
+        const [mins, secs] = getMinutesAndSeconds(countDownTime);
+        setCountDown(countDownTime);
         setMinutes(mins);
         setSeconds(secs);
-        console.log("a");
       }, 1000);
       return () => clearInterval(interval);
     }
   }, [targetDate, isStopped, minutes, seconds]);
+
+  // get a target date adding a amount of mins to the current time
+  const getTargetDate = (amount: number) => {
+    const amountInMs = amount * 60 * 1001;
+    const nowInMs = new Date().getTime();
+    return amountInMs + nowInMs;
+  }
+
+  // calculate time left in minutes and seconds
+  const getMinutesAndSeconds = (countDown: number) => {
+    const mins = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((countDown % (1000 * 60)) / 1000);
+    return [mins, secs];
+  };
+
+
+  const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    isStopped ? handlePlay() : handlePause();
+    setIsStopped(!isStopped);
+  };
+
+  
+
+  const handlePlay = () => {
+    setTargetDate(getTargetDate(sessionTime));
+  };
+
+  const handlePause = () => {
+    
+  };
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -39,23 +62,8 @@ export default function Clock() {
     setIsStopped(true);
   };
 
-  const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    isStopped ? handlePlay() : handlePause();
-    setIsStopped(!isStopped);
-  };
 
-  const handlePause = () => {
-    alert("pause");
-  };
-
-  const handlePlay = () => {
-    const sessionInMs = sessionTime * 60 * 1000;
-    const nowInMs = new Date().getTime();
-    setTargetDate(sessionInMs + nowInMs);
-  };
-
-  const handleTimerAndBreakAmount = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSessionAndBreakTime = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     switch (event.currentTarget.id) {
       case "break-decrement":
@@ -99,7 +107,7 @@ export default function Clock() {
                     <button
                       id="break-decrement"
                       className="col btn border-0"
-                      onClick={handleTimerAndBreakAmount}
+                      onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-down fs-3"></i>
                     </button>
@@ -109,7 +117,7 @@ export default function Clock() {
                     <button
                       id="break-increment"
                       className="col btn border-0"
-                      onClick={handleTimerAndBreakAmount}
+                      onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-up fs-3"></i>
                     </button>
@@ -120,7 +128,7 @@ export default function Clock() {
                     <button
                       id="session-decrement"
                       className="col btn border-0"
-                      onClick={handleTimerAndBreakAmount}
+                      onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-down fs-3"></i>
                     </button>
@@ -130,7 +138,7 @@ export default function Clock() {
                     <button
                       id="session-increment"
                       className="col btn border-0"
-                      onClick={handleTimerAndBreakAmount}
+                      onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-up fs-3"></i>
                     </button>
