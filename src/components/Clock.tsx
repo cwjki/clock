@@ -1,9 +1,38 @@
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useEffect } from "react";
+import CountDownTimer from "./CountDownTimer";
 
 export default function Clock() {
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
+
+  const [countDown, setCountDown] = useState(25 * 60 * 1000);
+  const [targetDate, setTargetDate] = useState(25 * 60 * 1000);
+
+  const [minutes, setMinutes] = useState(25);
+  const [seconds, setSeconds] = useState(0);
+
+  // calculate time left
+  const getReturnValues = (countDown: number) => {
+    const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+
+    return [days, hours, minutes, seconds];
+  };
+
+  useEffect(() => {
+    if (!isStopped) {
+      const interval = setInterval(() => {
+        setCountDown(targetDate - new Date().getTime());
+        console.log("a");
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [targetDate, isStopped]);
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -15,6 +44,12 @@ export default function Clock() {
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setIsStopped(!isStopped);
+  };
+
+  const handlePlay = () => {
+    const sessionInMs = sessionTime * 60 * 1000;
+    const nowInMs = new Date().getTime();
+    const timeSessionTarget = sessionInMs + nowInMs;
   };
 
   const handleTimerAndBreakAmount = (event: MouseEvent<HTMLButtonElement>) => {
@@ -99,6 +134,7 @@ export default function Clock() {
                   </div>
                 </div>
               </div>
+
               <div className="row align-items-center py-4 px-3">
                 <div className="col-8 mx-auto">
                   <div className="card bg-primary rounded-5 shadow text-dark">
@@ -106,9 +142,10 @@ export default function Clock() {
                       <div id="timer-label" className="card-text fs-3 fw-bold">
                         Session
                       </div>
-                      <div id="time-left" className="card-title fs-1 fw-bolder">
-                        25:00
-                      </div>
+                      <div
+                        id="time-left"
+                        className="card-title fs-1 fw-bolder"
+                      ></div>
                       <div className="row align-items-center">
                         <button
                           id="start_stop"
