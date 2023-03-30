@@ -1,5 +1,4 @@
 import { useState, MouseEvent, useEffect } from "react";
-import CountDownTimer from "./CountDownTimer";
 
 export default function Clock() {
   const [sessionTime, setSessionTime] = useState(25);
@@ -26,7 +25,7 @@ export default function Clock() {
         const [mins, secs] = getMinutesAndSeconds(timer);
         setCountDown(timer);
         setMinutes(mins);
-        setSeconds(seconds);
+        setSeconds(secs);
         console.log("a");
       }, 1000);
       return () => clearInterval(interval);
@@ -42,9 +41,7 @@ export default function Clock() {
 
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
     isStopped ? handlePlay(): handlePause();
-
     setIsStopped(!isStopped);
   };
 
@@ -53,11 +50,9 @@ export default function Clock() {
   }
 
   const handlePlay = () => {
-    alert("play");
-
     const sessionInMs = sessionTime * 60 * 1000;
     const nowInMs = new Date().getTime();
-    const timeSessionTarget = sessionInMs + nowInMs;
+    setTargetDate(sessionInMs + nowInMs);
   };
 
   const handleTimerAndBreakAmount = (event: MouseEvent<HTMLButtonElement>) => {
