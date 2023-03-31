@@ -171,7 +171,7 @@ export default function Clock() {
               </div>
 
               <div className="row align-items-center py-4 px-3">
-                <div className="col-8 mx-auto">
+                <div className="col-lg-7 col-8 mx-auto">
                   <div className="card bg-primary rounded-5 shadow text-dark">
                     <div className="card-body text-center">
                       <div id="timer-label" className="card-text fs-3 fw-bold">
