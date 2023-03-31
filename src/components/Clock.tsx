@@ -4,33 +4,60 @@ export default function Clock() {
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
-  const [firstPlay, setFirstPlay] = useState(true);
+  // const [firstPlay, setFirstPlay] = useState(true);
 
-  const [countDown, setCountDown] = useState(55 * 60 * 1000);
-  const [targetDate, setTargetDate] = useState(35 * 60 * 1000);
+  const [countDown, setCountDown] = useState(25 * 60 * 1000);
+  // const [targetDate, setTargetDate] = useState(35 * 60 * 1000);
 
-  const [minutes, setMinutes] = useState(45);
+  const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
+  const [isSession, setIsSession] = useState(true);
 
   useEffect(() => {
-    if (firstPlay) {
-      const countDownTime = getTargetDate(sessionTime) - new Date().getTime();
-      const [mins, secs] = getMinutesAndSeconds(countDownTime);
-      setCountDown(countDownTime);
-      setMinutes(mins);
-      setSeconds(secs);
-    }
+    // if (minutes + seconds === 0) {
+    //   alert("ZERO");
+    //   if (isSession) {
+    //     const target = getTargetDate(breakTime);
+    //     const countDownTime = target - new Date().getTime();
+    //     const [mins, secs] = getMinutesAndSeconds(countDownTime);
+    //     setCountDown(countDownTime);
+    //     setTargetDate(target);
+    //     setMinutes(mins);
+    //     setSeconds(secs);
+    //   } else {
+    //     const target = getTargetDate(sessionTime);
+    //     const countDownTime = target - new Date().getTime();
+    //     const [mins, secs] = getMinutesAndSeconds(countDownTime);
+    //     setCountDown(countDownTime);
+    //     setTargetDate(target);
+    //     setMinutes(mins);
+    //     setSeconds(secs);
+    //   }
+    //   setIsSession(!isSession);
+    // }
+
+    // if (firstPlay) {
+    //   const countDownTime = getTargetDate(sessionTime) - new Date().getTime();
+    //   const [mins, secs] = getMinutesAndSeconds(countDownTime);
+    //   setCountDown(countDownTime);
+    //   setMinutes(mins);
+    //   setSeconds(secs);
+    // }
     if (!isStopped) {
       const interval = setInterval(() => {
-        const countDownTime = targetDate - new Date().getTime();
-        const [mins, secs] = getMinutesAndSeconds(countDownTime);
-        setCountDown(countDownTime);
+        setCountDown(countDown - 1000);
+        const [mins, secs] = getMinutesAndSeconds(countDown - 1000);
         setMinutes(mins);
         setSeconds(secs);
+        // const countDownTime = targetDate - new Date().getTime();
+        // const [mins, secs] = getMinutesAndSeconds(countDownTime);
+        // setCountDown(countDownTime);
+        // setMinutes(mins);
+        // setSeconds(secs);
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [isStopped, firstPlay, targetDate, sessionTime, breakTime]);
+  }, [isStopped, countDown, minutes, seconds]);
 
   // get a target date adding a amount of mins to the current time
   const getTargetDate = (amount: number) => {
@@ -48,21 +75,22 @@ export default function Clock() {
 
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    isStopped ? handlePlay() : handlePause();
+    // isStopped ? handlePlay() : handlePause();
     setIsStopped(!isStopped);
   };
 
-  const handlePlay = () => {
-    if (firstPlay) {
-      setTargetDate(getTargetDate(sessionTime));
-      setFirstPlay(false);
-    } else {
-      console.log(countDown);
-      setTargetDate(countDown + new Date().getTime());
-    }
-  };
+  // const handlePlay = () => {
 
-  const handlePause = () => {};
+  // if (firstPlay) {
+  //   setTargetDate(getTargetDate(sessionTime));
+  //   setFirstPlay(false);
+  // } else {
+  //   console.log(countDown);
+  //   setTargetDate(countDown + new Date().getTime());
+  // }
+  // };
+
+  // const handlePause = () => {};
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -74,10 +102,10 @@ export default function Clock() {
     setSessionTime(25);
     setBreakTime(5);
     setIsStopped(true);
-    setFirstPlay(true);
+    // setFirstPlay(true);
     setCountDown(25 * 60 * 1000);
-    setTargetDate(25 * 60 * 1000);
-    setMinutes(55);
+    // setTargetDate(25 * 60 * 1000);
+    setMinutes(25);
     setSeconds(0);
   };
 
@@ -85,27 +113,50 @@ export default function Clock() {
     event.preventDefault();
     switch (event.currentTarget.id) {
       case "break-decrement":
-        if (breakTime > 1) setBreakTime(breakTime - 1);
+        if (breakTime > 1) {
+          setBreakTime(breakTime - 1);
+          if (!isSession) updateCountDown(breakTime - 1);
+        }
         break;
       case "break-increment":
-        if (breakTime < 60) setBreakTime(breakTime + 1);
+        if (breakTime < 60) {
+          setBreakTime(breakTime + 1);
+          if (!isSession) updateCountDown(breakTime + 1);
+        }
         break;
       case "session-decrement":
-        if (sessionTime > 1) setSessionTime(sessionTime - 1);
+        if (sessionTime > 1) {
+          setSessionTime(sessionTime - 1);
+          if (isSession) updateCountDown(sessionTime - 1);
+        }
         break;
       case "session-increment":
-        if (sessionTime < 60) setSessionTime(sessionTime + 1);
+        if (sessionTime < 60) {
+          setSessionTime(sessionTime + 1);
+          if (isSession) updateCountDown(sessionTime + 1);
+        }
         break;
       default:
         alert("Something went wrong!");
         break;
     }
-    setIsStopped(true);
-    setFirstPlay(true);
-    setCountDown(25 * 60 * 1000);
-    setTargetDate(25 * 60 * 1000);
-    setMinutes(55);
-    setSeconds(0);
+    // setIsStopped(true);
+    // setFirstPlay(true);
+    // setCountDown(25 * 60 * 1000);
+    // setTargetDate(25 * 60 * 1000);
+    // setMinutes(55);
+    // setSeconds(0);
+  };
+
+  const updateCountDown = (target: number) => {
+    const countDownTime = getTargetDate(target) - new Date().getTime();
+    const [mins, secs] = getMinutesAndSeconds(countDownTime);
+    setCountDown(countDownTime);
+    setMinutes(mins);
+    setSeconds(secs);
+    console.log("CD " + countDownTime);
+    console.log("Mins " + minutes);
+    console.log("Secs " + seconds);
   };
 
   return (
@@ -186,12 +237,8 @@ export default function Clock() {
                         Session
                       </div>
                       <div id="time-left" className="card-title fs-1 fw-bolder">
-                        {firstPlay
-                          ? sessionTime
-                          : minutes >= 10
-                          ? minutes
-                          : "0" + minutes}{" "}
-                        : {seconds >= 10 ? seconds : "0" + seconds}
+                        {minutes >= 10 ? minutes : "0" + minutes} :{" "}
+                        {seconds >= 10 ? seconds : "0" + seconds}
                       </div>
                       <div className="row align-items-center">
                         <button
