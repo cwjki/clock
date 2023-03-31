@@ -6,10 +6,10 @@ export default function Clock() {
   const [isStopped, setIsStopped] = useState(true);
   const [firstPlay, setFirstPlay] = useState(true);
 
-  const [countDown, setCountDown] = useState(45 * 60 * 1000);
+  const [countDown, setCountDown] = useState(55 * 60 * 1000);
   const [targetDate, setTargetDate] = useState(35 * 60 * 1000);
 
-  const [minutes, setMinutes] = useState(25);
+  const [minutes, setMinutes] = useState(45);
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Clock() {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [targetDate, isStopped, minutes, seconds]);
+  }, [targetDate, isStopped]);
 
   // get a target date adding a amount of mins to the current time
   const getTargetDate = (amount: number) => {
@@ -66,12 +66,11 @@ export default function Clock() {
   const reset = () => {
     setSessionTime(25);
     setBreakTime(5);
+    setSeconds(0);
     setIsStopped(true);
     setFirstPlay(true);
     setCountDown(25 * 60 * 1000);
     setTargetDate(25 * 60 * 1000);
-    setMinutes(25);
-    setSeconds(0);
   };
 
   const handleSessionAndBreakTime = (event: MouseEvent<HTMLButtonElement>) => {
