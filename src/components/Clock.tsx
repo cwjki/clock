@@ -23,6 +23,7 @@ export default function Clock() {
       }, 1000);
       return () => clearInterval(interval);
     }
+    
   }, [isStopped, countDown]);
 
   // get a target date adding a amount of mins to the current time
