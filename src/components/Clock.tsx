@@ -30,7 +30,7 @@ export default function Clock() {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [isStopped, firstPlay, targetDate, sessionTime]);
+  }, [isStopped, firstPlay, targetDate, sessionTime, breakTime]);
 
   // get a target date adding a amount of mins to the current time
   const getTargetDate = (amount: number) => {
@@ -83,7 +83,6 @@ export default function Clock() {
 
   const handleSessionAndBreakTime = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    reset();
     switch (event.currentTarget.id) {
       case "break-decrement":
         if (breakTime > 1) setBreakTime(breakTime - 1);
@@ -101,6 +100,12 @@ export default function Clock() {
         alert("Something went wrong!");
         break;
     }
+    setIsStopped(true);
+    setFirstPlay(true);
+    setCountDown(25 * 60 * 1000);
+    setTargetDate(25 * 60 * 1000);
+    setMinutes(55);
+    setSeconds(0);
   };
 
   return (
