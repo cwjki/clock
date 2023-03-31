@@ -12,13 +12,13 @@ export default function Clock() {
   const beepSound = document.getElementById("beep") as HTMLAudioElement;
 
   useEffect(() => {
-    if (countDown === 0) {
-      isSession ? updateCountDown(breakTime) : updateCountDown(sessionTime);
-      setIsSession(!isSession);
-      setMinutes(0);
-      setSeconds(0);
+    if (countDown < 5000) {
       beepSound.load();
       beepSound.play();
+    }
+    if (countDown < 0) {
+      isSession ? updateCountDown(breakTime) : updateCountDown(sessionTime);
+      setIsSession(!isSession);
     }
     if (!isStopped) {
       const interval = setInterval(() => {
