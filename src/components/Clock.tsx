@@ -6,8 +6,8 @@ export default function Clock() {
   const [isStopped, setIsStopped] = useState(true);
   const [firstPlay, setFirstPlay] = useState(true);
 
-  const [countDown, setCountDown] = useState(25 * 60 * 1000);
-  const [targetDate, setTargetDate] = useState(25 * 60 * 1000);
+  const [countDown, setCountDown] = useState(45 * 60 * 1000);
+  const [targetDate, setTargetDate] = useState(35 * 60 * 1000);
 
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
@@ -59,6 +59,11 @@ export default function Clock() {
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    reset();
+  };
+
+  // reset to the default values
+  const reset = () => {
     setSessionTime(25);
     setBreakTime(5);
     setIsStopped(true);
@@ -71,6 +76,7 @@ export default function Clock() {
 
   const handleSessionAndBreakTime = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    reset();
     switch (event.currentTarget.id) {
       case "break-decrement":
         if (breakTime > 1) setBreakTime(breakTime - 1);
@@ -112,7 +118,9 @@ export default function Clock() {
                   <div className="row align-items-center justify-content-center">
                     <button
                       id="break-decrement"
-                      className="col btn border-0"
+                      className={`col btn border-0 ${
+                        isStopped ? "" : "disabled"
+                      }`}
                       onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-down fs-3"></i>
@@ -122,7 +130,9 @@ export default function Clock() {
                     </div>
                     <button
                       id="break-increment"
-                      className="col btn border-0"
+                      className={`col btn border-0 ${
+                        isStopped ? "" : "disabled"
+                      }`}
                       onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-up fs-3"></i>
@@ -133,7 +143,9 @@ export default function Clock() {
                   <div className="row align-items-center justify-content-center">
                     <button
                       id="session-decrement"
-                      className="col btn border-0"
+                      className={`col btn border-0 ${
+                        isStopped ? "" : "disabled"
+                      }`}
                       onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-down fs-3"></i>
@@ -143,7 +155,9 @@ export default function Clock() {
                     </div>
                     <button
                       id="session-increment"
-                      className="col btn border-0"
+                      className={`col btn border-0 ${
+                        isStopped ? "" : "disabled"
+                      }`}
                       onClick={handleSessionAndBreakTime}
                     >
                       <i className="bi bi-chevron-up fs-3"></i>
@@ -160,8 +174,12 @@ export default function Clock() {
                         Session
                       </div>
                       <div id="time-left" className="card-title fs-1 fw-bolder">
-                        {minutes >= 10 ? minutes : "0" + minutes} :{" "}
-                        {seconds >= 10 ? seconds : "0" + seconds}
+                        {firstPlay
+                          ? sessionTime
+                          : minutes >= 10
+                          ? minutes
+                          : "0" + minutes}{" "}
+                        : {seconds >= 10 ? seconds : "0" + seconds}
                       </div>
                       <div className="row align-items-center">
                         <button
