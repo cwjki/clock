@@ -1,4 +1,5 @@
 import { useState, MouseEvent, useEffect } from "react";
+import beep from "../assets/beep.mp3"; // audio import
 
 export default function Clock() {
   const [sessionTime, setSessionTime] = useState(25);
@@ -8,11 +9,16 @@ export default function Clock() {
   const [countDown, setCountDown] = useState(25 * 60 * 1000);
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
+  const beepSound = document.getElementById("beep") as HTMLAudioElement;
 
   useEffect(() => {
     if (countDown === 0) {
       isSession ? updateCountDown(breakTime) : updateCountDown(sessionTime);
       setIsSession(!isSession);
+      setMinutes(0);
+      setSeconds(0);
+      beepSound.load();
+      beepSound.play();
     }
     if (!isStopped) {
       const interval = setInterval(() => {
@@ -23,7 +29,6 @@ export default function Clock() {
       }, 1000);
       return () => clearInterval(interval);
     }
-    
   }, [isStopped, countDown]);
 
   // get a target date adding a amount of mins to the current time
@@ -103,6 +108,7 @@ export default function Clock() {
 
   return (
     <div className="container-fluid text-dark">
+      <audio id="beep" src={beep} className="clip"></audio>
       <div className="row align-items-center vh-100">
         <div className="col-md-6 col-sm-8 col-12 mx-auto">
           <h1 className="text-center fw-semibold p-3">25 + 5 Clock</h1>
