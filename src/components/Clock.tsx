@@ -181,12 +181,22 @@ export default function Clock() {
 
               <div className="row align-items-center py-4 px-3">
                 <div className="col-lg-7 col-8 mx-auto">
-                  <div className="card bg-primary rounded-5 shadow text-dark">
+                  <div className="card bg-primary rounded-5 shadow">
                     <div className="card-body text-center">
-                      <div id="timer-label" className="card-text fs-3 fw-bold">
+                      <div
+                        id="timer-label"
+                        className={`card-text fs-3 fw-bold ${
+                          minutes < 1 ? "text-danger" : ""
+                        }`}
+                      >
                         {isSession ? "Session" : "Break"}
                       </div>
-                      <div id="time-left" className="card-title fs-1 fw-bolder">
+                      <div
+                        id="time-left"
+                        className={`card-title fs-1 fw-bolder ${
+                          minutes < 1 ? "text-danger" : ""
+                        }`}
+                      >
                         {minutes >= 10 ? minutes : "0" + minutes} :{" "}
                         {seconds >= 10 ? seconds : "0" + seconds}
                       </div>
