@@ -1,31 +1,18 @@
 import { useState, MouseEvent, useEffect } from "react";
+import { convertMsToMinutesSeconds } from "../utils/utils";
 import tick from "../assets/tick.mp3"; // tick audio
 import alarm from "../assets/alarm.mp3"; // alarm audio
 
-function padTo2Digits(num: number) {
-  return num.toString().padStart(2, "0");
-}
-
-function convertMsToMinutesSeconds(milliseconds: number) {
-  const minutes = Math.floor(milliseconds / 60000);
-  const seconds = Math.round((milliseconds % 60000) / 1000);
-
-  return seconds === 60
-    ? `${minutes + 1}:00`
-    : `${minutes < 10 ? "0" + minutes : minutes}:${padTo2Digits(seconds)}`;
-}
-
 export default function Clock() {
-  // const beepSound = document.getElementById("beep") as HTMLAudioElement;
-  const alarmSound = document.getElementById("beep") as HTMLAudioElement;
-  const tickSound = document.getElementById("tick") as HTMLAudioElement;
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
   const [isSession, setIsSession] = useState(true);
   const [countDown, setCountDown] = useState(25 * 60 * 1000);
-  // const [minutes, setMinutes] = useState(25);
-  // const [seconds, setSeconds] = useState(0);
+
+  // audio elements
+  let alarmSound = document.getElementById("beep") as HTMLAudioElement;
+  let tickSound = document.getElementById("tick") as HTMLAudioElement;
 
   useEffect(() => {
     if (countDown < 0) {
@@ -35,10 +22,8 @@ export default function Clock() {
     if (!isStopped) {
       const interval = setInterval(() => {
         setCountDown(countDown - 1000);
-        // const [mins, secs] = getMinutesAndSeconds(countDown - 1000);
-        // setMinutes(mins);
-        // setSeconds(secs);
 
+        //making the alarm sound when count down timer reach 0 seconds
         if (countDown === 0) {
           alarmSound.load();
           alarmSound.play();
@@ -61,13 +46,6 @@ export default function Clock() {
     return amountInMs + nowInMs;
   };
 
-  // calculate time left in minutes and seconds
-  const getMinutesAndSeconds = (countDown: number) => {
-    const mins = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((countDown % (1000 * 60)) / 1000);
-    return [mins, secs];
-  };
-
   // handle the play and pause clicks
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -82,11 +60,13 @@ export default function Clock() {
     setIsStopped(true);
     setIsSession(true);
     setCountDown(25 * 60 * 1000);
-    // setMinutes(25);
-    // setSeconds(0);
 
+    alarmSound = document.getElementById("beep") as HTMLAudioElement;
+    tickSound = document.getElementById("tick") as HTMLAudioElement;
     alarmSound.pause();
     alarmSound.load();
+    tickSound.pause();
+    tickSound.load();
   };
 
   // handle the increment and decrement of the session and break time
@@ -127,9 +107,6 @@ export default function Clock() {
   const updateCountDown = (target: number) => {
     const countDownTime = getTargetDate(target) - new Date().getTime();
     setCountDown(countDownTime);
-    // const [mins, secs] = getMinutesAndSeconds(countDownTime);
-    // setMinutes(mins);
-    // setSeconds(secs);
   };
 
   return (
@@ -223,8 +200,6 @@ export default function Clock() {
                         }`}
                       >
                         {convertMsToMinutesSeconds(countDown)}
-                        {/* {minutes >= 10 ? minutes : "0" + minutes}:{""}
-                        {seconds >= 10 ? seconds : "0" + seconds} */}
                       </div>
                       <div className="row align-items-center">
                         <button
@@ -239,9 +214,6 @@ export default function Clock() {
                             } bi-arrow-repeat fs-1`}
                           ></i>
                         </button>
-                        {/* <button className="col btn border-0" type="button">
-                          <i className="bi bi-pause fs-1"></i>
-                        </button> */}
                         <button
                           id="reset"
                           className="col btn border-0"
