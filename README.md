@@ -4,7 +4,7 @@ Fifth project to obtain the Front End Development Libraries certification from f
 
 
 ####  
-![project img](./public/clock.png)
+![project img](./src/assets/clock.png)
 
 
 [Link to the Clock](https://cwjki.github.io/clock/) 
