@@ -3,7 +3,7 @@ import { convertMsToMinutesSeconds } from "../utils/utils";
 import tick from "../assets/tick.mp3"; // tick audio
 import alarm from "../assets/alarm.mp3"; // alarm audio
 
-export default function Clock() {
+export default function Timer() {
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
@@ -115,7 +115,7 @@ export default function Clock() {
       <audio id="tick" src={tick} className="clip"></audio>
       <div className="row align-items-center vh-100">
         <div className="col-md-6 col-sm-8 col-12 mx-auto">
-          <h1 className="text-center fw-semibold p-3">25 + 5 Clock</h1>
+          <h1 className="text-center fw-semibold p-3">Pomodoro Timer</h1>
 
           <div className="card bg-secondary shadow-lg rounded-5">
             <div className="card-body">
