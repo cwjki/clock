@@ -2,6 +2,19 @@ import { useState, MouseEvent, useEffect } from "react";
 import tick from "../assets/tick.mp3"; // tick audio
 import alarm from "../assets/alarm.mp3"; // alarm audio
 
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, "0");
+}
+
+function convertMsToMinutesSeconds(milliseconds: number) {
+  const minutes = Math.floor(milliseconds / 60000);
+  const seconds = Math.round((milliseconds % 60000) / 1000);
+
+  return seconds === 60
+    ? `${minutes + 1}:00`
+    : `${minutes < 10 ? "0" + minutes : minutes}:${padTo2Digits(seconds)}`;
+}
+
 export default function Clock() {
   // const beepSound = document.getElementById("beep") as HTMLAudioElement;
   const alarmSound = document.getElementById("beep") as HTMLAudioElement;
@@ -11,8 +24,8 @@ export default function Clock() {
   const [isStopped, setIsStopped] = useState(true);
   const [isSession, setIsSession] = useState(true);
   const [countDown, setCountDown] = useState(25 * 60 * 1000);
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
+  // const [minutes, setMinutes] = useState(25);
+  // const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
     if (countDown < 0) {
@@ -22,9 +35,9 @@ export default function Clock() {
     if (!isStopped) {
       const interval = setInterval(() => {
         setCountDown(countDown - 1000);
-        const [mins, secs] = getMinutesAndSeconds(countDown - 1000);
-        setMinutes(mins);
-        setSeconds(secs);
+        // const [mins, secs] = getMinutesAndSeconds(countDown - 1000);
+        // setMinutes(mins);
+        // setSeconds(secs);
 
         if (countDown === 0) {
           alarmSound.load();
@@ -69,8 +82,8 @@ export default function Clock() {
     setIsStopped(true);
     setIsSession(true);
     setCountDown(25 * 60 * 1000);
-    setMinutes(25);
-    setSeconds(0);
+    // setMinutes(25);
+    // setSeconds(0);
 
     alarmSound.pause();
     alarmSound.load();
@@ -113,10 +126,10 @@ export default function Clock() {
   // update the count down timer with the session length or the break length
   const updateCountDown = (target: number) => {
     const countDownTime = getTargetDate(target) - new Date().getTime();
-    const [mins, secs] = getMinutesAndSeconds(countDownTime);
     setCountDown(countDownTime);
-    setMinutes(mins);
-    setSeconds(secs);
+    // const [mins, secs] = getMinutesAndSeconds(countDownTime);
+    // setMinutes(mins);
+    // setSeconds(secs);
   };
 
   return (
@@ -198,7 +211,7 @@ export default function Clock() {
                       <div
                         id="timer-label"
                         className={`card-text fs-3 fw-bold ${
-                          minutes < 1 ? "text-danger" : ""
+                          countDown < 60000 ? "text-danger" : ""
                         }`}
                       >
                         {isSession ? "Session" : "Break"}
@@ -206,11 +219,12 @@ export default function Clock() {
                       <div
                         id="time-left"
                         className={`card-title fs-1 fw-bolder ${
-                          minutes < 1 ? "text-danger" : ""
+                          countDown < 60000 ? "text-danger" : ""
                         }`}
                       >
-                        {minutes >= 10 ? minutes : "0" + minutes}:{""}
-                        {seconds >= 10 ? seconds : "0" + seconds}
+                        {convertMsToMinutesSeconds(countDown)}
+                        {/* {minutes >= 10 ? minutes : "0" + minutes}:{""}
+                        {seconds >= 10 ? seconds : "0" + seconds} */}
                       </div>
                       <div className="row align-items-center">
                         <button
