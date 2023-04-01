@@ -1,6 +1,6 @@
-# 25 + 5 Clock
+# 25 + 5 Clock (Pomodoro Timer)
 
-Fifth project to obtain the Front End Development Libraries certification from freeCodeCamp. Build a clock with the following [specifications](https://www.freecodecamp.org/learn/front-end-development-libraries/front-end-development-libraries-projects/build-a-25--5-clock).
+Fifth project to obtain the Front End Development Libraries certification from freeCodeCamp. Build a timer with the following [specifications](https://www.freecodecamp.org/learn/front-end-development-libraries/front-end-development-libraries-projects/build-a-25--5-clock).
 
 
 ####  
