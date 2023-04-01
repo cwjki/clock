@@ -1,8 +1,11 @@
 import { useState, MouseEvent, useEffect } from "react";
-import beep from "../assets/beep.mp3"; // audio import
+import tick from "../assets/tick.mp3"; // tick audio
+import alarm from "../assets/alarm.mp3"; // alarm audio
 
 export default function Clock() {
-  const beepSound = document.getElementById("beep") as HTMLAudioElement;
+  // const beepSound = document.getElementById("beep") as HTMLAudioElement;
+  const alarmSound = document.getElementById("beep") as HTMLAudioElement;
+  const tickSound = document.getElementById("tick") as HTMLAudioElement;
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
@@ -23,10 +26,14 @@ export default function Clock() {
         setMinutes(mins);
         setSeconds(secs);
 
-        // making the beep sound in the last 5 seconds
-        if (countDown <= 6000 && countDown > 0) {
-          beepSound.load();
-          beepSound.play();
+        if (countDown === 0) {
+          alarmSound.load();
+          alarmSound.play();
+        }
+        // making the tick sound in the last 5 seconds
+        if (countDown <= 6000 && countDown >= 1000) {
+          tickSound.load();
+          tickSound.play();
         }
       }, 1000);
       return () => clearInterval(interval);
@@ -64,6 +71,9 @@ export default function Clock() {
     setCountDown(25 * 60 * 1000);
     setMinutes(25);
     setSeconds(0);
+
+    alarmSound.pause();
+    alarmSound.load();
   };
 
   // handle the increment and decrement of the session and break time
@@ -111,7 +121,8 @@ export default function Clock() {
 
   return (
     <div className="container-fluid text-dark">
-      <audio id="beep" src={beep} className="clip"></audio>
+      <audio id="beep" src={alarm} className="clip"></audio>
+      <audio id="tick" src={tick} className="clip"></audio>
       <div className="row align-items-center vh-100">
         <div className="col-md-6 col-sm-8 col-12 mx-auto">
           <h1 className="text-center fw-semibold p-3">25 + 5 Clock</h1>
