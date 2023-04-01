@@ -60,6 +60,7 @@ export default function Clock() {
     setSessionTime(25);
     setBreakTime(5);
     setIsStopped(true);
+    setIsSession(true);
     setCountDown(25 * 60 * 1000);
     setMinutes(25);
     setSeconds(0);
@@ -197,7 +198,7 @@ export default function Clock() {
                           minutes < 1 ? "text-danger" : ""
                         }`}
                       >
-                        {minutes >= 10 ? minutes : "0" + minutes} :{" "}
+                        {minutes >= 10 ? minutes : "0" + minutes}:{""}
                         {seconds >= 10 ? seconds : "0" + seconds}
                       </div>
                       <div className="row align-items-center">
