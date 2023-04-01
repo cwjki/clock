@@ -2,6 +2,7 @@ import { useState, MouseEvent, useEffect } from "react";
 import beep from "../assets/beep.mp3"; // audio import
 
 export default function Clock() {
+  const beepSound = document.getElementById("beep") as HTMLAudioElement;
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
   const [isStopped, setIsStopped] = useState(true);
@@ -9,13 +10,8 @@ export default function Clock() {
   const [countDown, setCountDown] = useState(25 * 60 * 1000);
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  const beepSound = document.getElementById("beep") as HTMLAudioElement;
 
   useEffect(() => {
-    if (countDown < 5000) {
-      beepSound.load();
-      beepSound.play();
-    }
     if (countDown < 0) {
       isSession ? updateCountDown(breakTime) : updateCountDown(sessionTime);
       setIsSession(!isSession);
@@ -26,10 +22,16 @@ export default function Clock() {
         const [mins, secs] = getMinutesAndSeconds(countDown - 1000);
         setMinutes(mins);
         setSeconds(secs);
+
+        // making the beep sound in the last 5 seconds
+        if (countDown <= 6000 && countDown > 0) {
+          beepSound.load();
+          beepSound.play();
+        }
       }, 1000);
       return () => clearInterval(interval);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStopped, countDown]);
 
   // get a target date adding a amount of mins to the current time
