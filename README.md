@@ -4,7 +4,7 @@ Fifth project to obtain the Front End Development Libraries certification from f
 
 
 ####  
-![project img](./src/assets/clock.png)
+![project img](./src/assets/pomodoro-timer.png)
 
 
 [Link to the Clock](https://cwjki.github.io/clock/) 
