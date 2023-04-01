@@ -48,18 +48,15 @@ export default function Clock() {
     return [mins, secs];
   };
 
+  // handle the play and pause clicks
   const handlePlayPause = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setIsStopped(!isStopped);
   };
 
+  // reset to the default values
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    reset();
-  };
-
-  // reset to the default values
-  const reset = () => {
     setSessionTime(25);
     setBreakTime(5);
     setIsStopped(true);
@@ -68,6 +65,7 @@ export default function Clock() {
     setSeconds(0);
   };
 
+  // handle the increment and decrement of the session and break time
   const handleSessionAndBreakTime = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     switch (event.currentTarget.id) {
@@ -101,6 +99,7 @@ export default function Clock() {
     }
   };
 
+  // update the count down timer with the session length or the break length
   const updateCountDown = (target: number) => {
     const countDownTime = getTargetDate(target) - new Date().getTime();
     const [mins, secs] = getMinutesAndSeconds(countDownTime);
